@@ -5,7 +5,7 @@ with open('ws.json', "r") as d: # opens jSON and loads it as data
     
     
 while True: # forever loop
-    option = input("Select, txt or morse: ").lower() # parses input from the user so correct option is chosen
+    option = input("Select: txt or morse: ").lower() # parses input from the user so correct option is chosen
     
     if option == "txt": # first option, user inputs text then morse code gets printed
         text_input = input("Enter your text: ").lower()
