@@ -64,7 +64,7 @@ while True: # forever loop
                 audio.append(silence(unit * 6)) # add sixtuple silence to list
         audio = np.concatenate(audio) # make audio equal concatenate of audio
         audio = np.int16(audio * 32767) # change audio to 16 bit
-        wavfile.write("audio/morse.wav", sample_rate, audio) # write to file
+        wavfile.write("morse.wav", sample_rate, audio) # write to file
         print("is saved as sound morse.wav") # display sucesful sound write
     elif option == "exit": # lets the user exit the app
         break # stops the app
