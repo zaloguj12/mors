@@ -1,3 +1,6 @@
+# to anyone reading this, good luck, i specifically made this an eyesore
+# my plan was to make the most commented piece of code i have ever written, i have succeded
+
 import json # imports jSON python libraries
 import numpy as np # import fancy science stuff
 from scipy.io import wavfile # import a way to save sound
