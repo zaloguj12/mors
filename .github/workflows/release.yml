@@ -1,0 +1,73 @@
+name: Release MORS
+
+on:
+  push:
+    tags:
+      - "v*"
+
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            name: mors.exe
+          - os: ubuntu-latest
+            name: mors
+          - os: macos-latest
+            name: mors-mac
+    
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+      
+      - name: Install deps
+        run: pip install numpy scipy
+
+      - name: Build
+        run: pyinstaller --onefile --clean --name mors morse.py
+
+      - name: Rename output
+        shell: bash
+        run: |
+          mkdir release
+          cp dist/mors* release/${{ matrix.name }}
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}
+          path: release/
+  
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download builds
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/**/*.exe
+            artifacts/**/mors
+            artifacts/**/mors-mac
