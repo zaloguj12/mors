@@ -1,10 +1,18 @@
 import json # imports jSON python libraries
 import numpy as np # import fancy science stuff
 from scipy.io import wavfile # import a way to save sound
+import os # import operating systemation
+import sys # import the system itself
 
-with open('ws.json', "r") as d: # opens jSON
-    data = json.load(d) # loads the jSON as data
-    
+if getattr(sys, "frozen", False): # make sure github doesnt shit itself
+    base_path = sys._MEIPASS # lowkey toilet
+else: # else...
+    base_path = os.path.dirname(__file__) # lowkier toilet
+
+json_path = os.path.join(base_path, "ws.json") # find jSON
+
+with open(json_path) as d: # open jSON
+    data = json.load(d) # load jSON
     
 while True: # forever loop
     option = input("Select: txt or morse or audio: ").lower() # parses input from the user so correct option is chosen

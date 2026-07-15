@@ -39,7 +39,13 @@ jobs:
         run: pip install numpy scipy
 
       - name: Build
-        run: pyinstaller --onefile --clean --name mors morse.py
+        shell: bash
+        run: |
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            pyinstaller --onefile --clean --name mors --add-data "ws.json;." morse.py
+          else
+            pyinstaller --onefile --clean --name mors --add-data "ws.json:." morse.py
+          fi
 
       - name: Rename output
         shell: bash
